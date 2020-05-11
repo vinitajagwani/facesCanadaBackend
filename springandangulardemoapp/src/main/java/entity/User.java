@@ -1,4 +1,4 @@
-package com.example.demo;
+package entity;
 
 import javax.persistence.Id;
 import javax.persistence.Entity;
@@ -8,23 +8,16 @@ import javax.persistence.GenerationType;
 public class User {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long id;
+	private int id;
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String password;
-	public User(long id, String firstName, String lastName, String email, String password) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.password = password;
-	}
-	public long getId() {
+	
+	public int getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getFirstName() {
