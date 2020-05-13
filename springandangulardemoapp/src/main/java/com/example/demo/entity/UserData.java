@@ -1,11 +1,11 @@
-package entity;
+package com.example.demo.entity;
 
 import javax.persistence.Id;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 @Entity
-public class User {
+public class UserData {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
