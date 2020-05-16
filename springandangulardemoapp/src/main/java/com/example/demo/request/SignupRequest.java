@@ -20,7 +20,17 @@ public class SignupRequest {
     @Size(min = 6, max = 40)
     private String password;
   
-    public String getUsername() {
+    private boolean isActive;
+    
+    public boolean getActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public String getUsername() {
         return username;
     }
  

@@ -23,18 +23,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bezkoder.springjwt.models.ERole;
-import com.bezkoder.springjwt.models.Role;
-import com.bezkoder.springjwt.models.User;
-import com.bezkoder.springjwt.payload.request.LoginRequest;
-import com.bezkoder.springjwt.payload.request.SignupRequest;
-import com.bezkoder.springjwt.payload.response.JwtResponse;
-import com.bezkoder.springjwt.payload.response.MessageResponse;
-import com.bezkoder.springjwt.repository.RoleRepository;
-import com.bezkoder.springjwt.repository.UserRepository;
-import com.bezkoder.springjwt.security.jwt.JwtUtils;
-import com.bezkoder.springjwt.security.services.UserDetailsImpl;
-import com.bezkoder.springjwt.security.services.UserDetailsServiceImpl;
+import com.example.demo.entity.ERole;
+import com.example.demo.entity.Role;
+import com.example.demo.entity.User;
+import com.example.demo.request.LoginRequest;
+import com.example.demo.request.SignupRequest;
+import com.example.demo.response.JwtResponse;
+import com.example.demo.response.MessageResponse;
+import com.example.demo.repository.RoleRepository;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.utils.JwtUtils;
+import com.example.demo.services.UserDetailsImpl;
+import com.example.demo.services.UserDetailsServiceImpl;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -55,18 +55,20 @@ public class AuthController {
 	@Autowired
 	JwtUtils jwtUtils;
 	
+	@Autowired
 	UserDetailsServiceImpl userService;
-
+	
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-
+		boolean isActive = userService.getStatus(loginRequest.getUsername());
+		if(isActive) {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
-		
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
+		
 		List<String> roles = userDetails.getAuthorities().stream()
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
@@ -76,6 +78,13 @@ public class AuthController {
 												 userDetails.getUsername(), 
 												 userDetails.getEmail(), 
 												 roles));
+	}
+		else {
+			return ResponseEntity
+					.badRequest()
+					.body(new MessageResponse("Error: Login failed!!"));
+					
+					}
 	}
 
 	@PostMapping("/signup")
@@ -95,7 +104,8 @@ public class AuthController {
 		// Create new user's account
 		User user = new User(signUpRequest.getUsername(), 
 							 signUpRequest.getEmail(),
-							 encoder.encode(signUpRequest.getPassword()));
+							 encoder.encode(signUpRequest.getPassword()),
+							 signUpRequest.getActive());
 
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
@@ -128,13 +138,10 @@ public class AuthController {
 		}
 
 		user.setRoles(roles);
+		user.setActive(true);
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
-	@PostMapping("/update/user/{id}")
-	public ResponseEntity<User> getUpdateUser(@PathVariable long id, @RequestBody User user) {
-		user.setId(id);
-		return ResponseEntity.ok().body(this.userService.updateUser(user));
-	}
+	
 }
