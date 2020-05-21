@@ -17,9 +17,6 @@ import com.example.demo.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 	
-	@Query("SELECT u.id FROM User u WHERE u.username = :username")
-	public long findId(@Param ("username") String username);
-	
 	Optional<User> findByUsername(String username);
 
 	Boolean existsByUsername(String username);
@@ -45,4 +42,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	
 	@Query("SELECT u FROM User u WHERE u.username = :username")
 	public User findUser(@Param("username") String username);
+	
+	@Query("SELECT u.id FROM User u WHERE u.username = :username")
+	public long findId(@Param ("username") String username);
+	
 }

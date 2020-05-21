@@ -1,9 +1,6 @@
 package com.example.demo.services;
-
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -55,10 +52,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			userUpdate.setUsername(user.getUsername());
 			userUpdate.setEmail(user.getEmail());
 			userUpdate.setPassword(bcryptEncoder.encode(user.getPassword()));
-//			Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-//					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-//			roles.add(userRole);
-//			user.setRoles(roles);
 			userRepository.save(userUpdate);
 			return userUpdate;
 		}else {

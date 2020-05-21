@@ -6,72 +6,71 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table( name="products",
 uniqueConstraints = { 
-		@UniqueConstraint(columnNames = "productname") 
+		@UniqueConstraint(columnNames = "name") 
 	})
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank
-	@Size(max = 50)
-	private String productName;
+	private String name;
 
-	@NotBlank
-	private String productImage;
 	
-	@NotBlank
-	private int price;
+	private String image;
+	
+	private long price;
 
-	@NotBlank
-	@Size(max = 200)
 	private String description;
 	
 	private boolean isActive;
 
 	public Product() {
-
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	
-	public Product(String productName, String productImage,
-		int price, String description, boolean isActive) {
-		
-		this.productName = productName;
-		this.productImage = productImage;
+	public Product(String name, String image, long price, String description, boolean isActive) {
+		super();
+		this.name = name;
+		this.image = image;
 		this.price = price;
 		this.description = description;
 		this.isActive = isActive;
 	}
 
-
-	public Long getProduct_id() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setProduct_id(Long product_id) {
-		this.id = product_id;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public String getProductName() {
-		return productName;
+	public String getName() {
+		return name;
 	}
 
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public int getPrice() {
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public long getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(long price) {
 		this.price = price;
 	}
 
@@ -90,4 +89,7 @@ public class Product {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-}
+
+	
+	
+	}

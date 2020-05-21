@@ -1,34 +1,32 @@
 package com.example.demo.request;
 
-import java.util.Set;
-
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 public class ProductRequest {
 	@NotBlank
     @Size(min = 3, max = 50)
-    private String productName;
+    private String name;
 	
-    @NotBlank
-    private int price;
+	@NotBlank
+	private String image;
+    
+	private int price;
     
     @NotBlank
     @Size(min = 6, max = 200)
     private String description;
     
-    @NotBlank
-    private String productImage;
+   
   
     private boolean isActive;
 
-	public String getProductName() {
-		return productName;
+	public String getName() {
+		return name;
 	}
 
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public int getPrice() {
@@ -47,12 +45,12 @@ public class ProductRequest {
 		this.description = description;
 	}
 
-	public String getProductImage() {
-		return productImage;
+	public String getImage() {
+		return image;
 	}
 
-	public void setProductImage(String productImage) {
-		this.productImage = productImage;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public boolean isActive() {
@@ -62,6 +60,6 @@ public class ProductRequest {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-    
 
+	
 }
