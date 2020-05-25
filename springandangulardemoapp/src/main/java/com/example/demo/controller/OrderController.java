@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.Order;
 import com.example.demo.repository.OrderRepository;
-import com.example.demo.request.OrderDTO;
+import com.example.demo.request.OrderRequest;
+import com.example.demo.request.OrdersPerUserRequest;
 import com.example.demo.services.OrderService;
 
 
@@ -42,6 +43,11 @@ public class OrderController {
 	public Optional<Order> getSingleOrder(@PathVariable long id) {
 		return orderRepository.findById(id);
 	}
+	
+	@GetMapping("ordersPerUser")
+	public List<OrdersPerUserRequest> orderPerUser(){
+		return orderRepository.orderPerUser();
+	}
 
 	@PostMapping("placeOrder")
 	public Order saveOrder(@RequestBody Order order) {
@@ -49,7 +55,7 @@ public class OrderController {
 	}
 
 	@GetMapping("myorder/{id}")
-	public List<OrderDTO> getAllDetailOfUser(@PathVariable long id) {
+	public List<OrderRequest> getAllDetailOfUser(@PathVariable long id) {
 		return orderService.getAllDetailOfUser(id);
 
 	}

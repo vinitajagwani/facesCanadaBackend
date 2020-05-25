@@ -8,15 +8,15 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.Order;
 import com.example.demo.repository.OrderRepository;
-import com.example.demo.request.OrderDTO;
+import com.example.demo.request.OrderRequest;
 
 @Service
 public class OrderService {
 	@Autowired
 	private OrderRepository orderRepository;
 	
-	public List<OrderDTO> getAllDetailOfUser(Long id){
-		List<OrderDTO> serviceDetail = orderRepository.orderDetailById(id);
+	public List<OrderRequest> getAllDetailOfUser(Long id){
+		List<OrderRequest> serviceDetail = orderRepository.orderDetailById(id);
 		return serviceDetail;
 	}
 	
